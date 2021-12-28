@@ -1,0 +1,49 @@
+{{#each errors }}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{text}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+{{/each}}
+
+<div class="col-md-4 mx-auto">
+    <div class="card">
+        <div class="card-header">
+            <h3>Editar Alumno</h3>
+        </div>
+        <div class="card-body">
+            <form action="/student/edit-student/{{student._id}}?_method=PUT" method="POST">
+            <input type="hidden" name="_method" value="PUT">
+                <div class="form-floating mb-3">
+                    <input name="apellido" class="form-control" id="apellido" placeholder="Apellido" autofocus value = {{student.apellido}}>
+                    <label for="apellido">Apellido</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Nombre" value = {{student.nombre}}>
+                    <label for="nombre">Nombre</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input name="carrera" class="form-control" id="carrera" placeholder="Carrera" value = {{student.carrera}}>
+                    <label for="carrera">Carrera</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input name="registro" class="form-control" id="registro" placeholder="Registro" value = {{student.registro}}>
+                    <label for="registro">Registro</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input name="dni" class="form-control" id="dni" placeholder="DNI" value = {{student.dni}}>
+                    <label for="dni">DNI</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input name="email" class="form-control" id="email" placeholder="Email" value = {{student.email}}>
+                    <label for="email">Email</label>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="submit">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

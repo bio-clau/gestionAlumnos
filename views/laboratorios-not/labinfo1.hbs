@@ -1,0 +1,190 @@
+{{#each errors }}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{text}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+{{/each}}
+
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <input id="search-lab" class="form-control" type="text">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Carrera</th>
+                    <th scope="col">Registro</th>
+                    <th scope="col">DNI</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="labTable">
+
+        </tbody>
+    </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+          <form id="datosLab">
+            <div class="input-group mb-3">
+                <input type="text" name="numlab" id="numlab" class="form-control" placeholder="Número de Lab">
+                <input type="text" name="fecha" id="fecha" class="form-control" placeholder="Fecha">
+                <input type="text" name="comision" id="comision" class="form-control" placeholder="Comisión">
+            </div>
+            <div class="input-group col-sm-3">
+                <input type="text" name="horaInicio" id="horaInicio" class="form-control" placeholder="Hora de inicio">
+                <input type="text" name="horaFinal" id="horaFinal" class="form-control" placeholder="Hora de finalización">
+            </div>
+            </form>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Apellido</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Carrera</th>
+                        <th scope="col">Registro</th>
+                        <th scope="col">DNI</th>
+                    </tr>
+                </thead>
+                <tbody id="laboratorio">
+                    
+
+                </tbody>
+            </table>
+
+                <button class="btn btn-primary btn-block mx-auto" id="guardar" type="submit">
+                    Guardar
+                </button>
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+    var student =[]
+    var alumnos =[]
+    var studentLab =[]
+    var numlab=''
+    var fecha = ''
+    var horaInicio=''
+    var horaFinal=''
+    var comisnio =''
+
+    $.ajax({
+        method:'GET',
+        url:'http://localhost:5000/laboratorios/get-student?code=info1',
+        success: function(response){
+            student = response
+            buildTableLab(student)
+        }
+    })
+
+    function buildTableLab(data){
+        var table = document.getElementById('labTable')
+        table.innerHTML = []
+        for(var i = 0; i < data.length; i++){
+            var row = `<tr>
+                <td class="apellido" scope="col">${data[i].apellido}</td>
+                <td class="nombre" scope="col">${data[i].nombre}</td>
+                <td class="carrera" scope="col">${data[i].carrera}</td>
+                <td class="registro" scope="col">${data[i].registro}</td>
+                <td class="dni" scope="col">${data[i].dni}</td>
+                <td><input type="hidden" class="id" value="${data[i]._id}"><i class="fas fa-share inscrLab"></i></td>
+                </tr>`
+            table.innerHTML += row 
+        }
+    }
+
+    function buildLab(data){
+        var table = document.getElementById('laboratorio')
+        table.innerHTML = []
+        for(var i = 0; i < data.length; i++){
+            var row = `<tr>
+                <td class="apellido" scope="col">${data[i].apellido}</td>
+                <td class="nombre" scope="col">${data[i].nombre}</td>
+                <td class="carrera" scope="col">${data[i].carrera}</td>
+                <td class="registro" scope="col">${data[i].registro}</td>
+                <td class="dni" scope="col">${data[i].dni}</td>
+                <td><input type="hidden" class="id" value="${data[i]._id}"><i class="fas fa-user-minus delStudent"></i></td>
+                
+                </tr>`
+            table.innerHTML += row 
+        }
+    }
+
+    $('table').on('click', '.inscrLab', function() {
+        let row = $(this).closest('tr');
+        let id = row.find('.id').val();
+        let apellido = row.find('.apellido').text();
+        let nombre = row.find('.nombre').text();
+        let carrera = row.find('.carrera').text();
+        let registro= row.find('.registro').text();
+        let dni = row.find('.dni').text();
+        studentLab.push({_id:id, apellido: apellido, nombre:nombre, carrera:carrera, registro:registro, dni:dni})
+        alumnos.push(id)
+        for(var i=0; i<student.length; i++){
+            if(student[i]._id == id){
+                student.splice(i,1);
+            }
+        }
+        buildTableLab(student)
+        buildLab(studentLab)
+    })
+    $('table').on('click', '.delStudent', function() {
+        let row = $(this).closest('tr');
+        let id = row.find('.id').val();
+        let apellido = row.find('.apellido').text();
+        let nombre = row.find('.nombre').text();
+        let carrera = row.find('.carrera').text();
+        let registro= row.find('.registro').text();
+        let dni = row.find('.dni').text();
+        for(var i=0; i<studentLab.length; i++){
+            if(studentLab[i]._id == id){
+                studentLab.splice(i,1);
+            }
+        }
+        for(var i=0; i<alumnos.length; i++){
+            if(alumnos[i] == id){
+                alumnos.splice(i,1);
+            }
+        }
+        student.push({_id: id,nombre: nombre, apellido: apellido, carrera: carrera, registro:registro, dni:dni})
+        buildTableLab(student)
+        buildLab(studentLab)
+    })
+    
+    $('#guardar').on('click', function(){
+        $.ajax({
+            method: 'POST',
+            url: '/laboratorios/save-labinfo?mat=info1',
+            
+            data: {
+                alumnos: alumnos,
+                numlab: numlab,
+                fecha:fecha,
+                comision: comision,
+                horaInicio: horaInicio,
+                horaFinal: horaFinal},
+            success: function(response){
+                console.log(response);
+                studentLab=[]
+                alumnos=[]
+                document.getElementById('datosLab').reset();
+                buildLab(studentLab)
+            }
+        })
+    })
+
+
+</script>

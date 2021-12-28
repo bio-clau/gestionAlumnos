@@ -1,0 +1,98 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-10">
+        <h1>Notas Alumnos Electrónica de Informática 1</h1>
+    </div>
+    <div class="col ms-auto">
+        <h1><a href="/certificacion/get-pdf?code=info1elo"><i class="fas fa-file-pdf"></i></a></h1>
+    </div>
+    </div>
+    
+    
+</div>
+
+<table class="table table-bordered border-dark border-1 align-middle">
+    <thead class="strong">
+        <tr>
+            <th scope="col">Apellido</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Registro</th>
+            <th scope="col">DNI</th>
+            <th scope="col">P1</th>
+            <th scope="col">Rec.P1</th>
+            <th scope="col">P2</th>
+            <th scope="col">Rec.P2</th>
+            <th scope="col">Extr.</th>
+            <th scope="col">Lab1</th>
+            <th scope="col">Lab2</th>
+            <th scope="col">Rec1ó2</th>
+            <th scope="col">Lab3</th>
+            <th scope="col">Lab4</th>
+            <th scope="col">Rec3ó4</th>
+        </tr>
+    </thead>
+    <tbody id="califTable">
+
+    </tbody>
+</table>
+
+
+
+
+<script>
+    var students = []
+    var notas =[]
+    $.ajax({
+        method: 'GET',
+        url: 'http://localhost:5000/certificacion/get-alumnos?code=info1elo',
+        success: function(response){
+            students=response
+            $.ajax({
+                method: 'GET',
+                url: 'http://localhost:5000/certificacion/get-notas?code=info1elo',
+                success: function(response){
+                    notas=response
+                    buildTableCalif(students, notas)
+                }
+            })
+        }
+    })
+
+    
+
+    function buildTableCalif(alumnos, calif){
+        var table = document.getElementById("califTable")
+        table.innerHTML = []
+        for (var i=0; i<alumnos.length; i++){
+            var p1 = calif[i].p1 ? calif[i].p1 : "";
+            var p2 = calif[i].p2 ? calif[i].p2 : "";
+            var recp1 = calif[i].recp1 ? calif[i].recp1 : "";
+            var recp2 = calif[i].recp2 ? calif[i].recp2 : "";
+            var ext = calif[i].ext ? calif[i].ext : "";
+            var lab1 = calif[i].lab1 ? calif[i].lab1 : "";
+            var lab2 = calif[i].lab2 ? calif[i].lab2 : "";
+            var reclab12= calif[i].reclab12 ? calif[i].reclab12 : "";
+            var lab3 = calif[i].lab3 ? calif[i].lab3 : "";
+            var lab4 = calif[i].lab4 ? calif[i].lab4 : "";
+            var reclab34 = calif[i].reclab34 ? calif[i].reclab34 : "";
+            var row = `<tr>
+                        <th>${alumnos[i].apellido}</th>
+                        <th>${alumnos[i].nombre}</th>
+                        <th>${alumnos[i].registro}</th>
+                        <th>${alumnos[i].dni}</th>
+                        <th><small class="text-muted">${p1}</small></th>
+                        <th><small class="text-muted">${recp1}</small></th>
+                        <th><small class="text-muted">${p2}</small></th>
+                        <th><small class="text-muted">${recp2}</small></th>
+                        <th><small class="text-muted">${ext}</small></th>
+                        <th><small class="text-muted">${lab1}</small></th>
+                        <th><small class="text-muted">${lab2}</small></th>
+                        <th><small class="text-muted">${reclab12}</small></th>
+                        <th><small class="text-muted">${lab3}</small></th>
+                        <th><small class="text-muted">${lab4}</small></th>
+                        <th><small class="text-muted">${reclab34}</small></th>
+                    </tr>`
+            table.innerHTML += row
+        }
+    }
+</script>

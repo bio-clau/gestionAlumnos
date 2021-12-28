@@ -1,0 +1,70 @@
+{{#each errors }}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{text}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+{{/each}}
+
+<div class="container-fluid">
+    <div class="col-10">
+        <input type="text" id="search-student" class="form-control">
+    </div>
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Apellido</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Carrera</th>
+            <th scope="col">Registro</th>
+            <th scope="col">DNI</th>
+            <th scope="col">Email</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody id="searchTable">
+
+    </tbody>
+</table>
+
+
+
+
+<script>
+    var student = []
+
+    $.ajax({
+        method: 'GET',
+        url: 'http://localhost:5000/student/get-student',
+        success: function(response){
+            student=response
+            buildTable(student)
+        }
+    })
+
+    function buildTable(datos){
+        var table = document.getElementById("searchTable")
+        table.innerHTML = []
+        for (var i=0; i<datos.length; i++){
+            if(datos[i].info2){
+                var row = `<tr>
+                        <th>${datos[i].apellido}</th>
+                        <th>${datos[i].nombre}</th>
+                        <th>${datos[i].carrera}</th>
+                        <th>${datos[i].registro}</th>
+                        <th>${datos[i].dni}</th>
+                        <th>${datos[i].email}</th>
+                        <th>
+                            <a href="/calificacion/notasinfo2/${datos[i]._id}"><i class="fas fa-user-check"></i></a>
+                        </th>
+                    </tr>`
+                table.innerHTML += row
+            }
+        }
+    }
+
+
+ 
+</script>

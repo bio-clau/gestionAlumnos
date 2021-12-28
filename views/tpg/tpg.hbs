@@ -1,0 +1,177 @@
+{{#each errors }}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{text}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+{{/each}}
+
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <input id="search-TPG" class="form-control" type="text">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Carrera</th>
+                    <th scope="col">Registro</th>
+                    <th scope="col">DNI</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="TPGTable">
+
+        </tbody>
+    </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+          <form id="datosTPG">
+            <div class="input-group mb-3">
+                <input type="text" name="grupoTPG" id="grupoTPG" class="form-control" placeholder="Grupo">
+            </div>
+            </form>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Apellido</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Carrera</th>
+                        <th scope="col">Registro</th>
+                        <th scope="col">DNI</th>
+                    </tr>
+                </thead>
+                <tbody id="TPG-grupo">
+                    
+
+                </tbody>
+            </table>
+
+                <button class="btn btn-primary btn-block mx-auto" id="guardar" type="submit">
+                    Guardar
+                </button>
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+    var student =[]
+    var alumnos =[]
+    var studentTPG =[]
+    var grupoTPG=''
+    var code = "{{code}}";
+
+    $.ajax({
+        method:'GET',
+        url:`http://localhost:5000/tpg/get-student?code=${code}`,
+        success: function(response){
+            student = response
+            buildTableTPG(student)
+        }
+    })
+
+    function buildTableTPG(data){
+        var table = document.getElementById('TPGTable')
+        table.innerHTML = []
+        for(var i = 0; i < data.length; i++){
+            var row = `<tr>
+                <td class="apellido" scope="col">${data[i].apellido}</td>
+                <td class="nombre" scope="col">${data[i].nombre}</td>
+                <td class="carrera" scope="col">${data[i].carrera}</td>
+                <td class="registro" scope="col">${data[i].registro}</td>
+                <td class="dni" scope="col">${data[i].dni}</td>
+                <td><input type="hidden" class="id" value="${data[i]._id}"><i class="fas fa-share inscrTPG"></i></td>
+                </tr>`
+            table.innerHTML += row 
+        }
+    }
+
+    function buildTPG(data){
+        var table = document.getElementById('TPG-grupo')
+        table.innerHTML = []
+        for(var i = 0; i < data.length; i++){
+            var row = `<tr>
+                <td class="apellido" scope="col">${data[i].apellido}</td>
+                <td class="nombre" scope="col">${data[i].nombre}</td>
+                <td class="carrera" scope="col">${data[i].carrera}</td>
+                <td class="registro" scope="col">${data[i].registro}</td>
+                <td class="dni" scope="col">${data[i].dni}</td>
+                <td><input type="hidden" class="id" value="${data[i]._id}"><i class="fas fa-user-minus delStudent"></i></td>
+                
+                </tr>`
+            table.innerHTML += row 
+        }
+    }
+
+    $('table').on('click', '.inscrTPG', function() {
+        let row = $(this).closest('tr');
+        let id = row.find('.id').val();
+        let apellido = row.find('.apellido').text();
+        let nombre = row.find('.nombre').text();
+        let carrera = row.find('.carrera').text();
+        let registro= row.find('.registro').text();
+        let dni = row.find('.dni').text();
+        studentTPG.push({_id:id, apellido: apellido, nombre:nombre, carrera:carrera, registro:registro, dni:dni})
+        alumnos.push(id)
+        for(var i=0; i<student.length; i++){
+            if(student[i]._id == id){
+                student.splice(i,1);
+            }
+        }
+        buildTableTPG(student)
+        buildTPG(studentTPG)
+    })
+    $('table').on('click', '.delStudent', function() {
+        let row = $(this).closest('tr');
+        let id = row.find('.id').val();
+        let apellido = row.find('.apellido').text();
+        let nombre = row.find('.nombre').text();
+        let carrera = row.find('.carrera').text();
+        let registro= row.find('.registro').text();
+        let dni = row.find('.dni').text();
+        for(var i=0; i<studentTPG.length; i++){
+            if(studentTPG[i]._id == id){
+                studentTPG.splice(i,1);
+            }
+        }
+        for(var i=0; i<alumnos.length; i++){
+            if(alumnos[i] == id){
+                alumnos.splice(i,1);
+            }
+        }
+        student.push({_id: id,nombre: nombre, apellido: apellido, carrera: carrera, registro:registro, dni:dni})
+        buildTableTPG(student)
+        buildTPG(studentTPG)
+    })
+    
+    $('#guardar').on('click', function(){
+        $.ajax({
+            method: 'POST',
+            url: `/tpg/save?code=${code}`,
+            
+            data: {
+                alumnos: alumnos,
+                grupoTPG: grupoTPG},
+            success: function(response){
+                console.log(response);
+                studentTPG=[]
+                alumnos=[]
+                document.getElementById('datosTPG').reset();
+                buildTPG(studentTPG)
+            }
+        })
+    })
+
+
+</script>

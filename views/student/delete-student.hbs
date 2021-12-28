@@ -1,0 +1,74 @@
+{{#each errors }}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{text}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            
+        </button>
+    </div>
+{{/each}}
+
+<div class="col-md-4 mx-auto">
+    <div class="card">
+        <div class="card-header">
+            <h3>Eliminar Alumno</h3>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <div class="row justify-content-md-center g-0">
+                    <div class="col col-lg-4"> 
+                        <li class="list-group-item list-group-item-secondary">Apellido:</li>
+                    </div>
+                    <div class="col">
+                        <li class="list-group-item">{{student.apellido}}</li>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center g-0">
+                    <div class="col col-lg-4"> 
+                        <li class="list-group-item list-group-item-secondary">Nombre:</li>
+                    </div>
+                    <div class="col">
+                        <li class="list-group-item">{{student.nombre}}</li>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center g-0">
+                    <div class="col col-lg-4"> 
+                        <li class="list-group-item list-group-item-secondary">Carrera:</li>
+                    </div>
+                    <div class="col">
+                        <li class="list-group-item">{{student.carrera}}</li>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center g-0">
+                    <div class="col col-lg-4"> 
+                        <li class="list-group-item list-group-item-secondary">Registro:</li>
+                    </div>
+                    <div class="col">
+                        <li class="list-group-item">{{student.registro}}</li>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center g-0">
+                    <div class="col col-lg-4"> 
+                        <li class="list-group-item list-group-item-secondary">DNI:</li>
+                    </div>
+                    <div class="col">
+                        <li class="list-group-item">{{student.dni}}</li>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center g-0">
+                    <div class="col col-lg-4"> 
+                        <li class="list-group-item list-group-item-secondary">Email:</li>
+                    </div>
+                    <div class="col">
+                        <li class="list-group-item">{{student.email}}</li>
+                    </div>
+                </div>
+            </ul>
+            <form action="/student/delete-student/{{student._id}}?_method=DELETE" method="POST">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button class= "btn btn-danger btn-block btn-sm" type="submit">
+                            Delete
+                        </button>
+            </form>
+        </div>
+    </div>
+</div>

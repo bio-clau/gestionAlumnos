@@ -1,0 +1,105 @@
+{{#each errors }}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{text}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+{{/each}}
+
+   
+
+
+<div class="row">
+    <div class="col">
+        <div class="card card-body">
+            <input id="search-student" class="form-control" type="text">
+        </div>
+    </div>
+</div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Apellido</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Carrera</th>
+                <th scope="col">Registro</th>
+                <th scope="col">DNI</th>
+                <th scope="col">Email</th>
+                <th scope="col">Matrícula</th>
+                <th scope="col">Info 1</th>
+            </tr>
+        </thead>
+        <tbody id="studentsTable">
+
+        </tbody>
+    </table>
+
+
+
+
+
+
+<script>
+    var student =[]
+
+    $.ajax({
+        method:'GET',
+        url:'http://localhost:5000/student/get-student',
+        success: function(response){
+            student = response
+            buildTable(student)
+        }
+    })
+    
+    $('table').on('click', '.inscrInfo1', function() {
+        let row = $(this).closest('tr');
+        let id = row.find('.id').val();
+        let apellido = row.find('.apellido').text();
+        let nombre = row.find('.nombre').text();
+        let carrera = row.find('.carrera').text();
+        let registro= row.find('.registro').text();
+        let dni = row.find('.dni').text();
+        let email = row.find('.email').text();
+        console.log(id)
+        
+        $.ajax({
+            url: 'http://localhost:5000/info1/update/' +id,
+            method: 'PUT',
+            data: {
+                nombre: nombre,
+                apellido: apellido,
+                carrera: carrera,
+                registro: registro,
+                dni: dni,
+                email: email,
+                info1: true
+            },
+            success: function(response){
+                student = response
+                buildTable(student)
+                }
+
+            })
+    })
+
+    function buildTable(data){
+        var table = document.getElementById('studentsTable')
+        table.innerHTML = []
+        var estMatr1=""
+        for(var i = 0; i < data.length; i++){
+            estMatr1 = data[i].info1 ? "Info 1 / Compu 1" : "";
+            var row = `<tr>
+                <td class="apellido" scope="col">${data[i].apellido}</td>
+                <td class="nombre" scope="col">${data[i].nombre}</td>
+                <td class="carrera" scope="col">${data[i].carrera}</td>
+                <td class="registro" scope="col">${data[i].registro}</td>
+                <td class="dni" scope="col">${data[i].dni}</td>
+                <td class="email" scope="col">${data[i].email}</td>
+                <td>${estMatr1}</td>
+                <td><input type="hidden" class="id" value="${data[i]._id}"><button class="inscrInfo1">Matricular</button></td>
+                </tr>`
+            table.innerHTML += row 
+        }
+    }
+</script>

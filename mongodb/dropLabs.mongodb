@@ -1,0 +1,2 @@
+use('catedrainfo');
+db.labs.drop();

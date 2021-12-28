@@ -1,0 +1,146 @@
+{{#each errors }}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{text}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+{{/each}}
+
+<div class="col-md-8 mx-auto">
+    <div class="card">
+        <div class="card-header mx-auto">
+            <h3>Calificar a {{Alumno.apellido}}, {{Alumno.nombre}} de la carrera {{Alumno.carrera}}</h3>
+        </div>
+        <div class="card-body">
+            <form action="/calificacion/save-notas1/{{idNota}}?_method=PUT" method="POST">
+            <input type="hidden" name="_method" value="PUT">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-floating mb-3">
+                            {{#if notas.p1}}
+                            <input type="text" name="p1" class="form-control" id="p1" placeholder="Parcial 1" autofocus value = {{notas.p1}} disabled>
+                            {{else}}
+                            <input type="text" name="p1" class="form-control" id="p1" placeholder="Parcial 1" autofocus value = {{notas.p1}}>
+                            {{/if}}
+                            <label for="p1">Calificación del Parcial 1</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{#if notas.recp1}}
+                            <input type="text" name="recp1" class="form-control" id="recp1" placeholder="Recuperación 1" value = {{notas.recp1}} disabled>
+                            {{else}}
+                            <input type="text" name="recp1" class="form-control" id="recp1" placeholder="Recuperación 1" value = {{notas.recp1}}>
+                            {{/if}}
+                            <label for="recp1">Calificación Recuperatorio 1</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{#if notas.p2}}
+                            <input type="text" name="p2" class="form-control" id="p2" placeholder="Parcial 2" value = {{notas.p2}} disabled>
+                            {{else}}
+                            <input type="text" name="p2" class="form-control" id="p2" placeholder="Parcial 2" value = {{notas.p2}}>
+                            {{/if}}
+                            <label for="p2">Calificación del Parcial 2</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{#if notas.recp2}}
+                            <input type="text" name="recp2" class="form-control" id="recp2" placeholder="Recuperación 2" value = {{notas.recp2}} disabled>
+                            {{else}}
+                            <input type="text" name="recp2" class="form-control" id="recp2" placeholder="Recuperación 2" value = {{notas.recp2}}>
+                            {{/if}}
+                            <label for="recp2">Calificación Recuperatorio 2</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{#if notas.ext}}
+                            <input name="ext" class="form-control" id="ext" placeholder="Extraordinario" value = {{notas.ext}} disabled>
+                            {{else}}
+                            <input name="ext" class="form-control" id="ext" placeholder="Extraordinario" value = {{notas.ext}}>
+                            {{/if}}
+                            <label for="ext">Calificación de Extraordinario</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating mb-3">
+                            {{#if notas.lab1}}
+                            <input name="lab1" class="form-control" id="lab1" placeholder="Laboratorio 1" value = {{notas.lab1}} disabled>
+                            {{else}}
+                            <select class="form-select" id="lab1" aria-label="Floating label select example" name="lab1">
+                            <option selected></option>
+                            <option value="Ap">Aprobado</option>
+                            <option value="Rep">Reprobado</option>
+                            </select>
+                            {{/if}}
+                            <label for="lab1">Calificación Laboratorio 1</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{#if notas.lab2}}
+                            <input name="lab2" class="form-control" id="lab2" placeholder="Laboratorio 2" value = {{notas.lab2}} disabled>
+                            {{else}}
+                            <select class="form-select" id="lab2" aria-label="Floating label select example" name="lab2">
+                            <option selected></option>
+                            <option value="Ap">Aprobado</option>
+                            <option value="Rep">Reprobado</option>
+                            </select>
+                            {{/if}}
+                            <label for="lab2">Calificación Laboratorio 2</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{#if notas.reclab12}}
+                            <input name="reclab12" class="form-control" id="reclab12" placeholder="Rec. Lab. 1 ó 2" value = {{notas.reclab12}} disabled>
+                            {{else}}
+                            <select class="form-select" id="reclab12" aria-label="Floating label select example" name="reclab12">
+                            <option selected></option>
+                            <option value="Ap">Aprobado</option>
+                            <option value="Rep">Reprobado</option>
+                            </select>
+                            {{/if}}
+                            <label for="reclab12">Calificación Rec. Lab. 1 ó 2</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{#if notas.lab3}}
+                            <input name="lab3" class="form-control" id="lab3" placeholder="Laboratorio 3" value = {{notas.lab3}} disabled>
+                            {{else}}
+                            <select class="form-select" id="lab3" aria-label="Floating label select example" name="lab3">
+                            <option selected></option>
+                            <option value="Ap">Aprobado</option>
+                            <option value="Rep">Reprobado</option>
+                            </select>
+                            {{/if}}
+                            <label for="lab3">Calificación Laboratorio 3</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{#if notas.lab4}}
+                            <input name="lab4" class="form-control" id="lab4" placeholder="Laboratorio 4" value = {{notas.lab4}} disabled>
+                            {{else}}
+                            <select class="form-select" id="lab4" aria-label="Floating label select example" name="lab4">
+                            <option selected></option>
+                            <option value="Ap">Aprobado</option>
+                            <option value="Rep">Reprobado</option>
+                            </select>
+                            {{/if}}
+                            <label for="lab4">Calificación Laboratorio 4</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{#if notas.reclab34}}
+                            <input name="reclab34" class="form-control" id="reclab34" placeholder="Rec. Lab. 3 ó 4" value = {{notas.reclab34}} disabled>
+                            {{else}}
+                            <select class="form-select" id="reclab34" aria-label="Floating label select example" name="reclab34">
+                            <option selected></option>
+                            <option value="Ap">Aprobado</option>
+                            <option value="Rep">Reprobado</option>
+                            </select>
+                            {{/if}}
+                            <label for="reclab34">Calificación Rec. Lab. 3 ó 4</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block mx-auto" type="submit">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

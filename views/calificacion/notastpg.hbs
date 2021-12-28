@@ -1,0 +1,142 @@
+{{#each errors}}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    >
+    </button>
+  </div>
+{{/each}}
+
+<div class="container-fluid bg-light rounded-3 mb-4">
+  <h1>Calificación TPG del grupo {{notas.grupo}}</h1>
+  <form action="/calificacion/save-tpg/{{notas._id}}?_method=PUT" method="POST">
+    <input type="hidden" name="_method" value="PUT">
+  <table class="table align-middle">
+    <tbody>
+      <tr>
+        <td>
+          <div class="form-floating mb-3">
+            {{#if notas.et1}}
+              <input
+                type="text"
+                name="et1"
+                class="form-control"
+                id="et1"
+                placeholder="Etapa 1"
+                value={{notas.et1}}
+                disabled
+              />
+            {{else}}
+              <select
+                class="form-select"
+                id="et1"
+                aria-label="Floating label select example"
+                name="et1"
+              >
+                <option selected></option>
+                <option value="Ap">Aprobado</option>
+                <option value="Rep">Reprobado</option>
+              </select>
+            {{/if}}
+            <label for="et1">Etapa 1</label>
+          </div>
+        </td>
+        <td>
+          <div class="form-floating mb-3">
+            {{#if notas.et2}}
+              <input
+                type="text"
+                name="et2"
+                class="form-control"
+                id="et2"
+                placeholder="Etapa 2"
+                value={{notas.et2}}
+                disabled
+              />
+            {{else}}
+              <select
+                class="form-select"
+                id="et2"
+                aria-label="Floating label select example"
+                name="et2"
+              >
+                <option selected></option>
+                <option value="Ap">Aprobado</option>
+                <option value="Rep">Reprobado</option>
+              </select>
+            {{/if}}
+            <label for="et2">Etapa 2</label>
+          </div>
+        </td>
+        <td>
+          <div class="form-floating mb-3">
+            {{#if notas.et3}}
+              <input
+                type="text"
+                name="et3"
+                class="form-control"
+                id="et3"
+                placeholder="Etapa 3"
+                value={{notas.et3}}
+                disabled
+              />
+            {{else}}
+              <select
+                class="form-select"
+                id="et3"
+                aria-label="Floating label select example"
+                name="et3"
+              >
+                <option selected></option>
+                <option value="Ap">Aprobado</option>
+                <option value="Rep">Reprobado</option>
+              </select>
+            {{/if}}
+            <label for="et3">Etapa 3</label>
+          </div>
+        </td>
+        <td>
+          <div class="form-floating mb-3">
+            {{#if notas.et4}}
+              <input
+                type="text"
+                name="et4"
+                class="form-control"
+                id="et4"
+                placeholder="Etapa 4"
+                value={{notas.et4}}
+                disabled
+              />
+            {{else}}
+              <select
+                class="form-select"
+                id="et4"
+                aria-label="Floating label select example"
+                name="et4"
+              >
+                <option selected></option>
+                <option value="Ap">Aprobado</option>
+                <option value="Rep">Reprobado</option>
+              </select>
+            {{/if}}
+            <label for="et4">Etapa 4</label>
+          </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <button class="btn btn-primary mx-auto mb-3" type="submit">
+                    Guardar
+                </button>
+            </div>
+        </td>
+        
+        
+      </tr>
+    </tbody>
+  </table>
+  </form>
+</div>

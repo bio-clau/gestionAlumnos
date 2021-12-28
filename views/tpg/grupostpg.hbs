@@ -1,0 +1,97 @@
+{{#each errors }}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{text}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+{{/each}}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-10">
+        <h1>TPG de {{asignatura}}</h1>
+    </div>
+    <div class="col ms-auto">
+        <h1><a href='{{dirPDF}}'><i class="fas fa-file-pdf"></i></a></h1>
+    </div>
+    </div>
+    
+    
+</div>
+
+<table class="table table-bordered border-dark border-1 align-middle">
+    <thead class="strong">
+        <tr>
+            <th scope="col">Editar</th>
+            <th scope="col">Grupo N°</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Registro</th>
+            <th scope="col">DNI</th>
+            <th scope="col">Etapa 1</th>
+            <th scope="col">Etapa 2</th>
+            <th scope="col">Etapa 3</th>
+            <th scope="col">Etapa 4</th>
+            
+        </tr>
+    </thead>
+    <tbody id="GruposTable">
+
+    </tbody>
+</table>
+
+
+
+<script>
+    let students = []
+    let grupos =[]
+    var code = '{{code}}'
+    $.ajax({
+        method: 'GET',
+        url: `http://localhost:5000/tpg/grupos-students?code=${code}`,
+        success: function(response){
+            students=response
+            $.ajax({
+                method: 'GET',
+                url: `http://localhost:5000/tpg/get-grupos?code=${code}`,
+                success: function(response){
+                    grupos=response
+                    buildTableGrupos(students, grupos)
+                }
+            })
+        }
+    })
+    
+
+    function buildTableGrupos(students, grupos){
+        var table = document.getElementById("GruposTable")
+        table.innerHTML = []
+        for (var i=0; i<grupos.length; i++){
+            var etapa1 = grupos[i].et1 ? grupos[i].et1 : "";
+            var etapa2 = grupos[i].et2 ? grupos[i].et2 : "";
+            var etapa3 = grupos[i].et3 ? grupos[i].et3 : "";
+            var etapa4 = grupos[i].et4 ? grupos[i].et4 : "";
+            for(var j=0; j<grupos[i].alumnos.length; j++){
+                var participante = students.find( persona => persona._id == grupos[i].alumnos[j]);
+                if (j== 0){
+                    var primeraLinea = `<th class="text-center" rowspan ='${grupos[i].alumnos.length}'><a href="/tpg/edit/${grupos[i]._id}"><i class="fas fa-edit"></i></a></th>
+                    <th rowspan = '${grupos[i].alumnos.length}'> <p class="text-center">${grupos[i].grupo}</p></th> `
+                } else{
+                    var primeraLinea = ""
+                }
+                var row = `<tr>
+                        ${primeraLinea}
+                        <th>${participante.apellido}</th>
+                        <th>${participante.nombre}</th>
+                        <th>${participante.registro}</th>
+                        <th>${participante.dni}</th>
+                        <th><small class="text-muted">${etapa1}</small></th>
+                        <th><small class="text-muted">${etapa2}</small></th>
+                        <th><small class="text-muted">${etapa3}</small></th>
+                        <th><small class="text-muted">${etapa4}</small></th>
+                    </tr>`
+            table.innerHTML += row
+            }
+        }
+    }
+</script>

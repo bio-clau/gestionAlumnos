@@ -1,0 +1,63 @@
+<style type="text/css">
+    body{
+        font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        font-weight: 200;
+        font-size: medium;
+        width: 27cm;
+    }
+    table{
+        width: 100%;
+        border: 1px solid black;
+        padding: 8px;
+    }
+    
+</style>
+<html>
+<body>
+    <div class="mw-100"><h2>Notas Alumnos {{carrera}} de {{materia}}</h2></div>
+    <div class="mw-100">
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">Apellido</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Reg.</th>
+                <th scope="col">DNI</th>
+                <th scope="col">P1</th>
+                <th scope="col">Rp1</th>
+                <th scope="col">P2</th>
+                <th scope="col">Rp1</th>
+                <th scope="col">Ext</th>
+                <th scope="col">Lab1</th>
+                <th scope="col">Lab2</th>
+                <th scope="col">RL12</th>
+                <th scope="col">Lab3</th>
+                <th scope="col">Lab4</th>
+                <th scope="col">RL34</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each datos}}
+                <tr>
+                <td>{{apellido}}</td>
+                <td>{{nombre}}</td>
+                <td>{{registro}}</td>
+                <td>{{dni}}</td>
+                <td>{{p1}}</td>
+                <td>{{recp1}}</td>
+                <td>{{p2}}</td>
+                <td>{{recp2}}</td>
+                <td>{{ext}}</td>
+                <td>{{lab1}}</td>
+                <td>{{lab2}}</td>
+                <td>{{reclab12}}</td>
+                <td>{{lab3}}</td>
+                <td>{{lab4}}</td>
+                <td>{{reclab34}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

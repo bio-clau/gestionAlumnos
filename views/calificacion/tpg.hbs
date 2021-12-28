@@ -1,0 +1,67 @@
+{{#each errors}}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{text}}
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    >
+    </button>
+  </div>
+{{/each}}
+<div class="container-fluid bg-light rounded-3 mb-4">
+<h1>Calificación TPG de {{mat}}</h1>
+<div class="mw-100">
+  <table class="table align-middle">
+    <thead>
+      <tr>
+        <th class="text-center">Grupo</th>
+        <th class="text-center">Etapa 1</th>
+        <th class="text-center">Etapa 2</th>
+        <th class="text-center">Etapa 3</th>
+        <th class="text-center">Etapa 4</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each TPGS}}
+        <tr>
+          <td>
+            <h6 class="text-center">{{grupo}}</h6>
+          </td>
+          <td class="{{bget1}}">
+            {{#if et1}}
+              <p class="text-center align-middle">{{et1}}</p>
+            {{else}}
+              <p class="text-center align-middle">No Calificado</p>
+            {{/if}}
+          </td>
+          <td class="{{bget2}}">
+            {{#if et2}}
+              <p class="text-center align-middle">{{et2}}</p>
+            {{else}}
+              <p class="text-center align-middle">No Calificado</p>
+            {{/if}}
+          </td>
+          <td class="{{bget3}}">
+            {{#if et3}}
+              <p class="text-center align-middle">{{et3}}</p>
+            {{else}}
+              <p class="text-center align-middle">No Calificado</p>
+            {{/if}}
+          </td>
+          <td class="{{bget4}}">
+            {{#if et4}}
+              <p class="text-center align-middle">{{et4}}</p>
+            {{else}}
+              <p class="text-center align-middle">No Calificado</p>
+            {{/if}}
+          </td>
+          <td><a href="/calificacion/notastpg/{{_id}}"><i class="fas fa-edit"></i></a></td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+</div>

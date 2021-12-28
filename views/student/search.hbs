@@ -1,0 +1,80 @@
+{{#each errors }}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{text}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+{{/each}}
+
+<div class="container-fluid">
+    <div class="col-10">
+        <input type="text" id="search-student" class="form-control">
+    </div>
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Apellido</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Carrera</th>
+            <th scope="col">Registro</th>
+            <th scope="col">DNI</th>
+            <th scope="col">Email</th>
+            <th scope="col">Matrícula</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody id="searchTable">
+
+    </tbody>
+</table>
+
+
+
+
+<script>
+    var student = []
+
+    $.ajax({
+        method: 'GET',
+        url: 'http://localhost:5000/student/get-student',
+        success: function(response){
+            student=response
+            buildTable(student)
+        }
+    })
+
+    function buildTable(datos){
+        var table = document.getElementById("searchTable")
+        table.innerHTML = []
+        var estMatr1=""
+        var estMatr2=""
+        for (var i=0; i<datos.length; i++){
+            estMatr1 = datos[i].info1 ? "Info 1" : ""
+            console.log(estMatr1)
+            estMatr2 = datos[i].info2 ? "Info 2" : ""
+            var row = `<tr>
+                        <th>${datos[i].apellido}</th>
+                        <th>${datos[i].nombre}</th>
+                        <th>${datos[i].carrera}</th>
+                        <th>${datos[i].registro}</th>
+                        <th>${datos[i].dni}</th>
+                        <th>${datos[i].email}</th>
+                        <th>${estMatr1} ${estMatr2}</th>
+                        <th>
+                            <a href="/student/edit/${datos[i]._id}"><i class="fas fa-edit"></i></a>
+                        </th>
+                        <th>    
+                            <input type="hidden" name="_method" value="DELETE">
+                            <a href="/student/delete/${datos[i]._id}"><i class="fas fa-trash-alt"></i></a>
+                        </th>
+                    </tr>`
+            table.innerHTML += row
+        }
+    }
+
+
+ 
+</script>

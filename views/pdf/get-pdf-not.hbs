@@ -1,0 +1,52 @@
+<style type="text/css">
+    body{
+        font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        font-weight: 200;
+        font-size: small;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+    }
+    table{
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        border: 1px solid black;
+        padding: 0px;
+    }
+    
+</style>
+
+    <div class="mw-100 text-center"><h2>{{labDato.materia}}</h2></div>
+    <div class="mw-100 text-center"><h5>Práctica de laboratorio {{labDato.numlab}} - comisión {{labDato.comision}}</h5></div>
+    <div class="mw-100 text-center"><h5>{{labDato.fecha}} de {{labDato.horaInicio}} a {{labDato.horaFinal}}</h5></div>
+    <div class="mw-100">
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                <th style="width: 1cm" >#</th>
+                <th style="width: 4cm" >Apellido</th>
+                <th style="width: 3cm" >Nombre</th>
+                <th style="width: 1cm" >Esp.</th>
+                <th style="width: 2cm" >Reg.</th>
+                <th style="width: 3cm" >DNI</th>
+                <th style="width: 7cm">Firma</th>
+                <th style="width: 7cm">Nota</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each alumnos}}
+                <tr>
+                <th>{{num}}</th>
+                <td>{{apellido}}</td>
+                <td>{{nombre}}</td>
+                <td>{{carrera}}</td>
+                <td>{{registro}}</td>
+                <td>{{dni}}</td>
+                <td>______________________</td>
+                <td>______________________</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
